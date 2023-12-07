@@ -103,4 +103,36 @@ class UserController extends Controller
         return $output;
     }
 
+    public function report (Request $request) {
+        $new=[];
+        $star = 0;$score=[];
+        $data = DB::table('users')->orderBy('id','desc')->get();
+        foreach ($data as $val) {
+            $id = $val->id;
+            $name = $val->name;
+            $mobile = $val->mobile;
+            $fifty_fifty = $val->fifty_fifty;
+
+            $score_data = DB::table('data_save')->where(['user_id'=>$id])->get();
+            foreach ($score_data as $val1) {
+                $sid = $val1->id;
+                $level = $val1->level;
+                $q_id = $val1->q_id;
+                $answare_id = $val1->answare_id;
+                $status = $val1->status;
+                if ($status==1) {
+                    $star += 1;
+                }
+                $score[] = ['id'=>$sid,'level'=>$level,'q_id'=>$q_id,'answare_id'=>$answare_id,'status'=>$status];
+            }
+            $new[] = ['id'=>$id,'name'=>$name,'mobile'=>$mobile,'fifty_fifty'=>$fifty_fifty,'score'=>$score,'star'=>$star];
+
+        }
+        $output['response'] = true;
+        $output['message'] = 'Score';
+        $output['data'] = $new;
+        $output['error'] = '';
+        return $output;
+    }
+
 }
