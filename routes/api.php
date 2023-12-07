@@ -25,5 +25,7 @@ Route::post('user',[UserController::class,'register']);
     Route::post('question',[QuestionController::class,'question']);
     Route::post('fifty-fifty-apply',[UserController::class,'fifty_fifty_apply']);
     Route::post('data-save',[QuestionController::class,'data_save']);
+    
 
  });
+ Route::post('report',[UserController::class,'report']);
